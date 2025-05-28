@@ -1,148 +1,86 @@
-import { useState } from "react";
-import { 
-  BarChart3, 
-  User, 
-  Settings, 
-  Home as HomeIcon, 
-  LogOut, 
-  Menu, 
-  X 
-} from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 export default function Home() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-
   return (
-    <div className="flex h-screen bg-gray-100">
-      {/* Mobile sidebar toggle */}
-      <button 
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-white shadow-md"
-        onClick={toggleSidebar}
-      >
-        {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
-      </button>
-
-      {/* Sidebar */}
-      <div 
-        className={cn(
-          "fixed inset-y-0 left-0 transform bg-white shadow-lg w-64 transition-transform duration-200 ease-in-out z-40 lg:translate-x-0",
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        )}
-      >
-        <div className="flex flex-col h-full">
-          {/* Sidebar Header */}
-          <div className="px-6 py-6 border-b">
-            <h2 className="text-2xl font-bold text-gray-800">My App</h2>
-          </div>
-          
-          {/* Sidebar Content */}
-          <div className="flex-grow px-4 py-6 space-y-1">
-            <SidebarItem icon={<HomeIcon />} label="Home" active />
-            <SidebarItem icon={<BarChart3 />} label="Dashboard" />
-            <SidebarItem icon={<User />} label="Profile" />
-            <SidebarItem icon={<Settings />} label="Settings" />
-          </div>
-          
-          {/* Sidebar Footer */}
-          <div className="p-4 border-t">
-            <button className="flex items-center w-full px-4 py-2 text-gray-600 rounded-md hover:bg-gray-100 transition-colors">
-              <LogOut className="mr-3" size={20} />
-              <span>Logout</span>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="flex-1 ml-0 lg:ml-64 transition-all duration-200">
-        {/* Header */}
-        <header className="bg-white shadow-sm py-4 px-6">
-          <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-gray-800">Home</h1>
-            <div className="flex items-center space-x-4">
-              <button className="p-1 rounded-full hover:bg-gray-100">
-                <User size={24} className="text-gray-600" />
-              </button>
+    <div className="flex min-h-screen flex-col">
+      <main className="flex-1">
+        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col items-center space-y-4 text-center">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
+                  Welcome to Our App
+                </h1>
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="max-w-[600px]"
+              >
+                <p className="text-muted-foreground md:text-xl">
+                  Discover amazing features and boost your productivity.
+                </p>
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="space-x-4"
+              >
+                <Link to="/features">
+                  <Button className="transition-all hover:bg-primary/90 hover:translate-y-[-2px]">
+                    Get Started
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
+                <Link to="/about">
+                  <Button variant="outline" className="transition-all hover:bg-muted hover:translate-y-[-2px]">
+                    Learn More
+                  </Button>
+                </Link>
+              </motion.div>
             </div>
           </div>
-        </header>
-        
-        {/* Main Content Area */}
-        <main className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <DashboardCard 
-              title="Analytics" 
-              icon={<BarChart3 size={24} className="text-blue-500" />} 
-              value="1,234" 
-              description="Total views this month" 
-            />
-            <DashboardCard 
-              title="Profile" 
-              icon={<User size={24} className="text-green-500" />} 
-              value="Complete" 
-              description="Your profile is up to date" 
-            />
-            <DashboardCard 
-              title="Settings" 
-              icon={<Settings size={24} className="text-purple-500" />} 
-              value="3" 
-              description="Pending configuration items" 
-            />
+        </section>
+
+        <motion.section 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="w-full py-12 md:py-24 lg:py-32 bg-muted"
+        >
+          <div className="container px-4 md:px-6">
+            <div className="grid gap-6 lg:grid-cols-3 items-stretch">
+              {[1, 2, 3].map((i) => (
+                <motion.div
+                  key={i}
+                  whileHover={{ scale: 1.03, y: -5 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                  className="rounded-lg border bg-card text-card-foreground shadow-sm p-6"
+                >
+                  <h3 className="text-xl font-bold mb-2">Feature {i}</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  </p>
+                  <Link to="/features" className="text-primary hover:underline inline-flex items-center">
+                    Learn more <ArrowRight className="ml-1 h-4 w-4" />
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
           </div>
-
-          <div className="mt-8 bg-white rounded-lg shadow p-6">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">Welcome to Your Dashboard</h2>
-            <p className="text-gray-600">
-              This is your home page with quick access to your dashboard and profile information.
-              Use the sidebar to navigate between different sections of the application.
-            </p>
-          </div>
-        </main>
-      </div>
-      
-      {/* Overlay for mobile when sidebar is open */}
-      {isSidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
-          onClick={toggleSidebar}
-        />
-      )}
-    </div>
-  );
-}
-
-function SidebarItem({ icon, label, active = false }) {
-  return (
-    <button 
-      className={cn(
-        "flex items-center w-full px-4 py-3 rounded-md transition-colors",
-        active 
-          ? "bg-blue-100 text-blue-600" 
-          : "text-gray-600 hover:bg-gray-100"
-      )}
-    >
-      <span className="mr-3">{icon}</span>
-      <span className="font-medium">{label}</span>
-    </button>
-  );
-}
-
-function DashboardCard({ title, icon, value, description }) {
-  return (
-    <div className="bg-white rounded-lg shadow p-6 transition-all hover:shadow-md">
-      <div className="flex justify-between items-start mb-4">
-        <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
-        {icon}
-      </div>
-      <div className="mt-2">
-        <p className="text-2xl font-bold text-gray-900">{value}</p>
-        <p className="text-sm text-gray-500 mt-1">{description}</p>
-      </div>
+        </motion.section>
+      </main>
     </div>
   );
 }
